@@ -2,11 +2,13 @@
 
 #include "led_strip.h"
 
-// GPIO assignment
-#define LED_STRIP_GPIO_PIN  8
-// Numbers of the LED in the strip
-#define LED_STRIP_LED_COUNT (8 * 8 * 4)
-// 10MHz resolution, 1 tick = 0.1us (led strip needs a high resolution)
-#define LED_STRIP_RMT_RES_HZ  (10 * 1000 * 1000)
+typedef struct
+{
+    led_strip_handle_t led_strip;
+} led_matrix_t;
 
-led_strip_handle_t configure_led();
+led_matrix_t led_matrix_init(uint8_t gpio_pin, uint32_t max_leds);
+
+esp_err_t led_matrix_clear(led_matrix_t led_matrix);
+esp_err_t led_matrix_refresh(led_matrix_t led_matrix);
+esp_err_t led_matrix_set_pixel(led_matrix_t led_matrix, uint32_t index, uint32_t red, uint32_t green, uint32_t blue);

@@ -1,8 +1,0 @@
-{
-  "C_Cpp.intelliSenseEngine": "default",
-  "idf.openOcdConfigs": [
-    "board/esp32h2-builtin.cfg"
-  ],
-  "idf.port": "/dev/tty.usbmodem101",
-  "idf.flashType": "UART"
-}

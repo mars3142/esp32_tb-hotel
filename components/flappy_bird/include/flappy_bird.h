@@ -1,3 +1,3 @@
 #pragma once
 
-void vFlappyTask(void *pvParameters);
+void vFlappyBirdTask(void *pvParameters);
