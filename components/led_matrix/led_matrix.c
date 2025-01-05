@@ -39,26 +39,36 @@ led_strip_handle_t led_strip_init(uint8_t gpio_pin, uint32_t max_leds)
     return led_strip;
 }
 
-led_matrix_t led_matrix_init(uint8_t gpio_pin, uint32_t max_leds)
+esp_err_t led_matrix_init(led_matrix_t *led_matrix, uint8_t gpio_pin, uint32_t max_leds)
 {
-    led_matrix_t led_matrix =
-        {
-            .led_strip = led_strip_init(gpio_pin, max_leds),
-        };
-    return led_matrix;
+    led_matrix->led_strip = led_strip_init(gpio_pin, max_leds);
+    led_matrix->data = NULL;
+    led_matrix->size = -1;
+
+    return ESP_OK;
 }
 
-esp_err_t led_matrix_clear(led_matrix_t led_matrix)
+esp_err_t led_matrix_clear(led_matrix_t *led_matrix)
 {
-    return led_strip_clear(led_matrix.led_strip);
+    return led_strip_clear(led_matrix->led_strip);
 }
 
-esp_err_t led_matrix_refresh(led_matrix_t led_matrix)
+esp_err_t led_matrix_refresh(led_matrix_t *led_matrix)
 {
-    return led_strip_refresh(led_matrix.led_strip);
+    return led_strip_refresh(led_matrix->led_strip);
 }
 
-esp_err_t led_matrix_set_pixel(led_matrix_t led_matrix, uint32_t index, uint32_t red, uint32_t green, uint32_t blue)
+esp_err_t led_matrix_fill(led_matrix_t *led_matrix)
 {
-    return led_strip_set_pixel(led_matrix.led_strip, index, red, green, blue);
+    led_strip_clear(led_matrix->led_strip);
+    for (uint32_t i = 0; i < led_matrix->size; i++)
+    {
+        led_strip_set_pixel(led_matrix->led_strip, i, 5, 5, 5);
+    }
+    return led_strip_refresh(led_matrix->led_strip);
+}
+
+esp_err_t led_matrix_set_pixel(led_matrix_t *led_matrix, uint32_t index, uint32_t red, uint32_t green, uint32_t blue)
+{
+    return led_strip_set_pixel(led_matrix->led_strip, index, red, green, blue);
 }
