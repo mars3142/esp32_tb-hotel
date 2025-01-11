@@ -1,4 +1,49 @@
 dependencies:
+  espressif/ble_ota:
+    component_hash: 059214dda94d03d4378201a773124f8efbad17c70b506ff4fbc30d2656e74616
+    dependencies:
+    - name: espressif/cmake_utilities
+      registry_url: https://components.espressif.com
+      require: private
+      version: 0.*
+    - name: espressif/esp_encrypted_img
+      registry_url: https://components.espressif.com
+      require: private
+      version: ^2.0.1
+    - name: idf
+      require: private
+      version: '>=4.4'
+    source:
+      registry_url: https://components.espressif.com/
+      type: service
+    targets:
+    - esp32
+    - esp32c3
+    - esp32h2
+    - esp32s3
+    - esp32c2
+    - esp32c6
+    version: 0.1.14
+  espressif/cmake_utilities:
+    component_hash: 351350613ceafba240b761b4ea991e0f231ac7a9f59a9ee901f751bddc0bb18f
+    dependencies:
+    - name: idf
+      require: private
+      version: '>=4.1'
+    source:
+      registry_url: https://components.espressif.com
+      type: service
+    version: 0.5.3
+  espressif/esp_encrypted_img:
+    component_hash: e5a065c140fbc6a69a1de4fa1731b7596cc34a4a50b57913b2dc34c9ad3a0a70
+    dependencies:
+    - name: idf
+      require: private
+      version: '>=4.4'
+    source:
+      registry_url: https://components.espressif.com
+      type: service
+    version: 2.3.0
   espressif/led_strip:
     component_hash: f907c58f722c58ab8545366668cfd8769cefb7d97a631a14e9d16234cc72bdff
     dependencies:
@@ -14,8 +59,9 @@ dependencies:
       type: idf
     version: 5.4.0
 direct_dependencies:
+- espressif/ble_ota
 - espressif/led_strip
 - idf
-manifest_hash: 399dfe4c6a00186ee87747d2cf8f4d8929d92e978efcdfc62cff6dda7bb2f4c4
+manifest_hash: 7ce6e38af23025e688697765aa06ace8eed215e62a8f46027fe96bce3fb687ad
 target: esp32h2
 version: 2.0.0

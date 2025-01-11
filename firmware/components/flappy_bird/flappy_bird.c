@@ -1,10 +1,13 @@
 #include "flappy_bird.h"
 
 #include <freertos/FreeRTOS.h>
+#include <freertos/queue.h>
 #include <esp_random.h>
 #include <esp_log.h>
 #include <esp_err.h>
+#include <driver/gpio.h>
 
+#include "sdkconfig.h"
 #include "led_matrix.h"
 #include "persistance.h"
 #include "state_machine.h"
@@ -14,6 +17,9 @@ static const char *TAG = "flappy";
 #define LED_STRIP_LED_COUNT (8 * 8 * 4)
 
 uint8_t walls[LED_STRIP_LED_COUNT * 8] = {-1};
+
+QueueHandle_t buttonQueue;
+int value = 0;
 
 uint8_t *generate_parkour()
 {
@@ -35,9 +41,18 @@ uint8_t *generate_parkour()
     return walls;
 }
 
+static void IRAM_ATTR button_isr_handler(void *arg)
+{
+    value = 1 - value;
+    xQueueSendFromISR(buttonQueue, &value, NULL);
+}
+
 void init_hardware(led_matrix_t *led_matrix)
 {
-    ESP_ERROR_CHECK(led_matrix_init(led_matrix, 8, LED_STRIP_LED_COUNT));
+    ESP_ERROR_CHECK(led_matrix_init(led_matrix, CONFIG_GEO_WLED_DIN_PIN, LED_STRIP_LED_COUNT));
+
+    gpio_reset_pin(CONFIG_GEO_BTN_PIN);
+    gpio_set_direction(CONFIG_GEO_BTN_PIN, GPIO_MODE_INPUT);
 }
 
 void init_game(game_state_machine_t *game)
@@ -60,6 +75,11 @@ void vFlappyBirdTask(void *pvParameters)
 
     while (true)
     {
+        // if (xQueueReceive(buttonQueue, &value, 0))
+        // {
+        //     ESP_LOGI(TAG, "Button pressed!");
+        // }
+
         if (led_on_off)
         {
             for (uint32_t i = 0; i < LED_STRIP_LED_COUNT; i++)

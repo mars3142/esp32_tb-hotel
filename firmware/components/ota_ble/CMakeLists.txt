@@ -1,3 +1,3 @@
-idf_component_register(SRCS "ota.c"
+idf_component_register(SRCS "ota_ble.c"
                     INCLUDE_DIRS "include"
 )

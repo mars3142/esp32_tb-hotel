@@ -3,6 +3,7 @@ idf_component_register(SRCS
                         "state/intro_state.c"
                     INCLUDE_DIRS "include"
                     PRIV_REQUIRES
+                        driver
                         led_matrix
                         persistance
 )

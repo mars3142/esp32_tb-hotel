@@ -1,6 +1,6 @@
 #include "freertos/FreeRTOS.h"
 #include "flappy_bird.h"
-#include "ota.h"
+#include "ota_ble.h"
 #include "persistance.h"
 
 void app_main()

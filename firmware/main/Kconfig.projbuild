@@ -1,0 +1,13 @@
+menu "Geocache Configuration"
+    config GEO_WLED_DIN_PIN
+        int "WLED Data In Pin"
+        default 12
+        help
+            The number of the WLED data in pin.
+
+    config GEO_BTN_PIN
+        int "Button Pin"
+        default 11
+        help
+            The number of the button pin.
+endmenu
