@@ -15,5 +15,5 @@ dependencies:
   #   # All dependencies of `main` are public by default.
   #   public: true
   mauriciobarroso/button:
-    git: https://github.com/mauriciobarroso/button
+    git: https://github.com/mauriciobarroso/button.git
     version: v1.1.0

@@ -62,7 +62,7 @@ dependencies:
     component_hash: e2e1e2e58e4ee1c3cca77a7867769b15f874477beaf3ea438c260f0c7c7f6ce7
     dependencies: []
     source:
-      git: https://github.com/mauriciobarroso/button
+      git: https://github.com/mauriciobarroso/button.git
       path: .
       type: git
     version: 67b5eac256410c8e07b4d90b44a5d057d288ab8f
@@ -71,6 +71,6 @@ direct_dependencies:
 - espressif/led_strip
 - idf
 - mauriciobarroso/button
-manifest_hash: 600606b1da4f320407ec2ccf272bb670b57894f0eb3ff992fd976ee32920f3be
+manifest_hash: a7d020acfd22f8fa6b3d1d58c8398446a6dd4e18ff772147c94711e3b6322c0e
 target: esp32h2
 version: 2.0.0
