@@ -14,3 +14,6 @@ dependencies:
   #   # `public` flag doesn't have an effect dependencies of the `main` component.
   #   # All dependencies of `main` are public by default.
   #   public: true
+  mauriciobarroso/button:
+    git: https://github.com/mauriciobarroso/button
+    version: v1.1.0

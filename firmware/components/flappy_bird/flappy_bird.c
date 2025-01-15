@@ -8,6 +8,7 @@
 #include <driver/gpio.h>
 
 #include "sdkconfig.h"
+#include "button.h"
 #include "led_matrix.h"
 #include "persistance.h"
 #include "state_machine.h"
@@ -18,8 +19,12 @@ static const char *TAG = "flappy";
 
 uint8_t walls[LED_STRIP_LED_COUNT * 8] = {-1};
 
-QueueHandle_t buttonQueue;
-int value = 0;
+button_t button;
+
+void button_cb(void *arg)
+{
+    ESP_LOGI(TAG, "Button 1 single click");
+}
 
 uint8_t *generate_parkour()
 {
@@ -41,18 +46,16 @@ uint8_t *generate_parkour()
     return walls;
 }
 
-static void IRAM_ATTR button_isr_handler(void *arg)
-{
-    value = 1 - value;
-    xQueueSendFromISR(buttonQueue, &value, NULL);
-}
-
 void init_hardware(led_matrix_t *led_matrix)
 {
+    ESP_LOGI(TAG, "configuring led matrix");
     ESP_ERROR_CHECK(led_matrix_init(led_matrix, CONFIG_GEO_WLED_DIN_PIN, LED_STRIP_LED_COUNT));
 
-    gpio_reset_pin(CONFIG_GEO_BTN_PIN);
-    gpio_set_direction(CONFIG_GEO_BTN_PIN, GPIO_MODE_INPUT);
+    ESP_LOGI(TAG, "configuring button");
+    ESP_ERROR_CHECK(button_init(&button, CONFIG_GEO_BTN_PIN, BUTTON_EDGE_FALLING, tskIDLE_PRIORITY + 2, configMINIMAL_STACK_SIZE * 4));
+    ESP_ERROR_CHECK(button_add_cb(&button, BUTTON_CLICK_SINGLE, button_cb, NULL));
+
+    ESP_LOGI(TAG, "config complete");
 }
 
 void init_game(game_state_machine_t *game)
@@ -75,11 +78,6 @@ void vFlappyBirdTask(void *pvParameters)
 
     while (true)
     {
-        // if (xQueueReceive(buttonQueue, &value, 0))
-        // {
-        //     ESP_LOGI(TAG, "Button pressed!");
-        // }
-
         if (led_on_off)
         {
             for (uint32_t i = 0; i < LED_STRIP_LED_COUNT; i++)
@@ -98,12 +96,12 @@ void vFlappyBirdTask(void *pvParameters)
                 }
             }
             ESP_ERROR_CHECK(led_matrix_refresh(&led_matrix));
-            ESP_LOGI(TAG, "LED ON!");
+            // ESP_LOGI(TAG, "LED ON!");
         }
         else
         {
             ESP_ERROR_CHECK(led_matrix_clear(&led_matrix));
-            ESP_LOGI(TAG, "LED OFF!");
+            // ESP_LOGI(TAG, "LED OFF!");
         }
 
         // led_on_off = !led_on_off;
