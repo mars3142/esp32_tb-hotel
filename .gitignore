@@ -1,2 +1,3 @@
 hardware/*backups/*
 *.lck
+*.FCBak
