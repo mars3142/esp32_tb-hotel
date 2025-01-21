@@ -13,7 +13,7 @@ jobs:
   build:
     strategy:
       matrix:
-        idf_ver: [release-v5.4]
+        idf_ver: [release-v5.4, latest]
         idf_target: [esp32h2]
 
     runs-on: ubuntu-latest
