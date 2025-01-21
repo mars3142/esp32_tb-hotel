@@ -73,25 +73,30 @@ esp_err_t led_matrix_update(led_matrix_t *led_matrix)
 {
     for (uint32_t i = 0; i < led_matrix->size; i++)
     {
+        uint32_t index = i;
         led_data_t led_data = led_matrix->data[i];
-        led_strip_set_pixel(led_matrix->led_strip, i, led_data.red, led_data.green, led_data.blue);
+        if ((i / 8) % 2 == 1)
+        {
+            index = ((i / 8) + 1) * 8 - 1 - (i % 8);
+        }
+        led_strip_set_pixel(led_matrix->led_strip, index, led_data.red, led_data.green, led_data.blue);
     }
     return led_strip_refresh(led_matrix->led_strip);
 }
 
-esp_err_t led_matrix_set_pixel(led_matrix_t *led_matrix, uint32_t index, uint8_t red, uint8_t green, uint8_t blue)
+esp_err_t led_matrix_set_pixel(led_matrix_t *led_matrix, uint32_t index, led_data_t led_data)
 {
     if (index >= led_matrix->size)
     {
         // ESP_LOGE(TAG, "Index %" PRIu32 " out of bounds %" PRIu32 "", index, led_matrix->size);
         return ESP_OK;
     }
-    led_data_t led_data = {
-        .red = red,
-        .green = green,
-        .blue = blue,
-    };
     led_matrix->data[index] = led_data;
 
     return ESP_OK;
+}
+
+led_data_t led_matrix_get_pixel(led_matrix_t *led_matrix, uint32_t index)
+{
+    return led_matrix->data[index];
 }
