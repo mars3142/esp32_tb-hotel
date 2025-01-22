@@ -1,3 +1,10 @@
 #pragma once
 
-void vOTATask(void *pvParameters);
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+    void vOTATask(void *pvParameters);
+#ifdef __cplusplus
+}
+#endif

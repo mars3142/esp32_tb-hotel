@@ -1,0 +1,18 @@
+@startuml
+hide empty description
+
+state "Introduction" as Intro
+state "Menu" as Menu
+state "Running" as Running
+state "Game Over" as GameOver
+state "Winning" as Winning
+
+[*] --> Intro
+Intro --> Menu : Time based
+Menu --> Running : Button pressed
+Running --> GameOver : less 10
+Running --> Winning : more/equal 10
+Winning --> Menu : Button pressed
+GameOver --> Menu : Button pressed
+
+@enduml

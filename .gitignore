@@ -1,3 +1,4 @@
 hardware/*backups/*
 *.lck
 *.FCBak
+simulator/cmake-build-debug/**
